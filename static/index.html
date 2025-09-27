@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Interview Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Mock Interview Chatbot</h1>
+
+            <!-- Landing Page -->
+            <div id="landing-view">
+                <h2 class="text-2xl font-semibold mb-4 text-center">Choose Interview Type</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button class="type-nav-btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300" data-type="technical">
+                        Technical Interview
+                    </button>
+                    <button class="type-nav-btn bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300" data-type="behavioral">
+                        Behavioral Interview
+                    </button>
+                    <button class="type-nav-btn bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300" data-type="general">
+                        General Interview
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interview Type Views (with job background form) -->
+            <div id="technical-view" class="hidden">
+                <h2 class="text-2xl font-semibold mb-4">Technical Interview</h2>
+                <form id="technical-form" class="space-y-4">
+                    <input type="text" name="jobTitle" placeholder="Job Title (e.g. Software Engineer)" class="w-full p-3 border rounded-lg" required>
+                    <textarea name="jobDesc" placeholder="Job Description / Requirements" class="w-full p-3 border rounded-lg" rows="3"></textarea>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg">Start Interview</button>
+                    <button type="button" class="back-btn ml-4 text-gray-600 underline">Back</button>
+                </form>
+            </div>
+            <div id="behavioral-view" class="hidden">
+                <h2 class="text-2xl font-semibold mb-4">Behavioral Interview</h2>
+                <form id="behavioral-form" class="space-y-4">
+                    <input type="text" name="jobTitle" placeholder="Job Title (e.g. Product Manager)" class="w-full p-3 border rounded-lg" required>
+                    <textarea name="jobDesc" placeholder="Job Description / Requirements" class="w-full p-3 border rounded-lg" rows="3"></textarea>
+                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg">Start Interview</button>
+                    <button type="button" class="back-btn ml-4 text-gray-600 underline">Back</button>
+                </form>
+            </div>
+            <div id="general-view" class="hidden">
+                <h2 class="text-2xl font-semibold mb-4">General Interview</h2>
+                <form id="general-form" class="space-y-4">
+                    <input type="text" name="jobTitle" placeholder="Job Title (e.g. Analyst)" class="w-full p-3 border rounded-lg" required>
+                    <textarea name="jobDesc" placeholder="Job Description / Requirements" class="w-full p-3 border rounded-lg" rows="3"></textarea>
+                    <button type="submit" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-6 rounded-lg">Start Interview</button>
+                    <button type="button" class="back-btn ml-4 text-gray-600 underline">Back</button>
+                </form>
+            </div>
+
+            <!-- Chat Interface -->
+            <div id="chat-interface" class="hidden bg-white rounded-lg shadow-md p-6">
+                <div id="job-background" class="mb-4 p-4 bg-yellow-50 rounded-lg hidden"></div>
+                <div id="chat-messages" class="h-96 overflow-y-auto mb-4 p-4 bg-gray-50 rounded-lg">
+                    <!-- Messages will be added here -->
+                </div>
+                <div class="flex gap-4">
+                    <textarea id="user-input"
+                        class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 resize-y min-h-[48px] max-h-40"
+                        placeholder="Type your response..." rows="2"></textarea>
+                    <button id="send-btn"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 
