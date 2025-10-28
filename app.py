@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-import openai
+from openai import OpenAI
 import os
 from dotenv import load_dotenv
 import asyncio
@@ -16,7 +16,7 @@ CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Initialize OpenAI client
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Interview types and their system prompts
 INTERVIEW_TYPES = {
@@ -88,7 +88,7 @@ def handle_user_message(data):
         if not messages or messages[0].get('role') != 'system':
             system_prompt = build_system_prompt(interview_type, job_background)
             messages = [{"role": "system", "content": system_prompt}] + messages
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=messages,
             temperature=0.7,
@@ -112,7 +112,7 @@ async def fetch_sample_answer(session, api_key, job_title, focused_desc, questio
         "Content-Type": "application/json"
     }
     payload = {
-        "model": "gpt-4o",
+        "model": "gpt-4",
         "messages": [{"role": "system", "content": prompt}],
         "temperature": 0.7,
         "max_tokens": 180
@@ -135,7 +135,7 @@ def handle_end_interview(data):
             f"Job Title: {job_background.get('jobTitle', '')}\nJob Description: {get_focused_job_description(job_background, interview_type)}\n\nTranscript:\n"
             + '\n'.join([f"{turn['role']}: {turn['content']}" for turn in conversation])
         )
-        suggestions_resp = openai.ChatCompletion.create(
+        suggestions_resp = client.chat.completions.create(
             model="gpt-4",
             messages=[{"role": "system", "content": suggestions_prompt}],
             temperature=0.7,
@@ -183,4 +183,4 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5050))
     host = os.getenv('HOST', 'localhost')
     debug = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
-    socketio.run(app, debug=debug, port=port, host=host) 
+    socketio.run(app, debug=debug, port=port, host=host)

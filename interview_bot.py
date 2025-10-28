@@ -55,7 +55,7 @@ class InterviewBot:
     def get_ai_response(self, messages: List[Dict]) -> str:
         try:
             response = client.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-4",
                 messages=messages,
                 temperature=0.7,
                 max_tokens=500
